@@ -14,6 +14,9 @@ class OutputFormatter
             $startAndGoal[] = reset($route).end($route);
         }
 
-        return implode(',', $startAndGoal);
+        sort($startAndGoal);
+        $startAndGoal = array_unique($startAndGoal);
+
+        return count($startAndGoal) > 0 ? implode(',', $startAndGoal) : '-';
     }
 }

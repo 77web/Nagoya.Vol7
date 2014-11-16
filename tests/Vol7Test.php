@@ -4,27 +4,67 @@ namespace Nagoya\Vol7;
 
 class Vol7Test extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Vol7
-     */
-    protected $skeleton;
 
-    protected function setUp()
-    {
-        $this->skeleton = new Vol7;
-    }
-
-    public function testNew()
-    {
-        $actual = $this->skeleton;
-        $this->assertInstanceOf('\Nagoya\Vol7\Vol7', $actual);
-    }
 
     /**
-     * @expectedException \Nagoya\Vol7\Exception\LogicException
+     * @test
+     * @dataProvider provideTestData
      */
-    public function testException()
+    public function actual($input, $expectedOutput)
     {
-        throw new Exception\LogicException;
+        $processor = new Vol7(__DIR__.'/../src/Resources/config/points.yml');
+        $this->assertEquals($expectedOutput, $processor->run($input));
+    }
+
+    public function provideTestData()
+    {
+        return [
+        /*0*/ [ "befi", "14,16,24,26" ],
+        /*1*/ [ "abc", "14,15,16,24,25,26,34,35,36" ],
+        /*2*/ [ "de", "14,15,16,24,26,34,35,36" ],
+        /*3*/ [ "fghi", "14,15,16,24,25,26,34,35,36" ],
+        /*4*/ [ "abcdefghi", "-" ],
+        /*5*/ [ "ag", "24,25,26,34,35,36" ],
+        /*6*/ [ "dh", "14,15,16,34,35,36" ],
+        /*7*/ [ "bf", "14,15,16,24,25,26" ],
+        /*8*/ [ "ch", "15,25,35" ],
+        /*9*/ [ "be", "14,16,24,26,34,36" ],
+        /*10*/ [ "ci", "14,15,24,25,34,35" ],
+        /*11*/ [ "cgi", "15,24,25,35" ],
+        /*12*/ [ "acgi", "24,25,35" ],
+        /*13*/ [ "cdefghi", "15,35" ],
+        /*14*/ [ "acdefghi", "35" ],
+        /*15*/ [ "cdegi", "15,24,35" ],
+        /*16*/ [ "bcdegi", "24" ],
+        /*17*/ [ "afh", "14,15,16,24,25,26,34,35,36" ],
+        /*18*/ [ "abfh", "14,15,16,24,25,26" ],
+        /*19*/ [ "dfh", "14,15,16,34,35,36" ],
+        /*20*/ [ "cdfh", "15,35" ],
+        /*21*/ [ "deh", "14,15,16,34,35,36" ],
+        /*22*/ [ "cdeh", "15,35" ],
+        /*23*/ [ "abefgh", "24,26" ],
+        /*24*/ [ "abdefgh", "-" ],
+        /*25*/ [ "acfghi", "25,35" ],
+        /*26*/ [ "acdfghi", "35" ],
+        /*27*/ [ "cegi", "15,24,35" ],
+        /*28*/ [ "abcfhi", "15,25" ],
+        /*29*/ [ "abcefhi", "-" ],
+        /*30*/ [ "abdi", "14,15,16,24,34,35,36" ],
+        /*31*/ [ "abdfi", "14,15,16,24" ],
+        /*32*/ [ "bdi", "14,15,16,24,34,35,36" ],
+        /*33*/ [ "bdfi", "14,15,16,24" ],
+        /*34*/ [ "adfh", "14,15,16,34,35,36" ],
+        /*35*/ [ "adfgh", "34,35,36" ],
+        /*36*/ [ "acdfhi", "15,35" ],
+        /*37*/ [ "bcdfgi", "24" ],
+        /*38*/ [ "bcdfghi", "-" ],
+        /*39*/ [ "defi", "14,15,16,24,34,35,36" ],
+        /*40*/ [ "defhi", "14,15,16,34,35,36" ],
+        /*41*/ [ "cdefg", "15,24,26,35" ],
+        /*42*/ [ "cdefgi", "15,24,35" ],
+        /*43*/ [ "bdefg", "24,26" ],
+        /*44*/ [ "bdefgi", "24" ],
+        ];
     }
 }
+
