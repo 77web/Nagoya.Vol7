@@ -34,6 +34,8 @@ class Router
             throw new \RuntimeException;
         }
 
+        $routes = [];
+
         $route[] = $current->getId();
         if ($current->isGoal()) {
             $routes[] = $route;
@@ -41,7 +43,6 @@ class Router
             return $routes;
         }
 
-        $routes = [];
         foreach ($current->getNextPoints() as $next) {
             if ($next->isDisabled()) {
                 continue;
