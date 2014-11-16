@@ -1,0 +1,52 @@
+1:
+  next:
+      - a
+      - g
+
+2:
+  next:
+      - d
+      - h
+
+3:
+  next:
+      - b
+      - f
+
+4: ~
+5: ~
+6: ~
+
+a:
+  next:
+      - b
+b:
+  next:
+      - c
+      - 5
+c:
+  next:
+      - 4
+      - 6
+d:
+  next:
+      - c
+      - e
+e:
+  next:
+      - 5
+f:
+  next:
+      - g
+g:
+  next:
+      - c
+      - e
+      - h
+h:
+  next:
+      - 4
+      - i
+i:
+  next:
+      - 6
