@@ -21,19 +21,28 @@ class Vol7
     {
         $disabledPoints = $this->inputParser->parse($input);
 
-        $points = $this->loadPoints($disabledPoints);
+        $points = $this->loadPoints([4,5,6], $disabledPoints);
+        $startPoints = [
+            $points[1],
+            $points[2],
+            $points[3],
+        ];
 
-        $routes = $this->router->run($points, [1,2,3], [4,5,6]);
+        $routes = $this->router->run($startPoints);
 
         return $this->outputFormatter->format($routes);
     }
 
-    private function loadPoints(array $disabledPointIds)
+    private function loadPoints(array $goalPointIds, array $disabledPointIds)
     {
         $points = $this->pointLoader->load($this->configPath);
 
         foreach ($disabledPointIds as $disabledPointId) {
             $points[$disabledPointId]->disable();
+        }
+
+        foreach ($goalPointIds as $goalId) {
+            $points[$goalId]->setGoal(true);
         }
 
         return $points;

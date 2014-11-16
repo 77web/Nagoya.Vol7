@@ -8,26 +8,24 @@ use Nagoya\Vol7\Entity\Point;
 class Router
 {
     /**
-     * @param Point[] $points
-     * @param array $startIds
-     * @param array $goalIds
+     * @param Point[] $startPoints
      * @return array
      */
-    public function run(array $points, array $startIds, array $goalIds)
+    public function run(array $startPoints)
     {
-        foreach ($goalIds as $goalId) {
-            $points[$goalId]->setGoal(true);
-        }
-
         $routes = [];
-        foreach ($startIds as $startId) {
-            $cursor = $points[$startId];
-            $routes = array_merge($routes, $this->generateRoute($cursor, []));
+        foreach ($startPoints as $start) {
+            $routes = array_merge($routes, $this->generateRoute($start, []));
         }
 
         return $routes;
     }
 
+    /**
+     * @param Point $current 現在地
+     * @param array $route 現在地まで通って来た地点IDが入っている配列
+     * @return array
+     */
     private function generateRoute(Point $current, array $route)
     {
         if ($current->isDisabled()) {

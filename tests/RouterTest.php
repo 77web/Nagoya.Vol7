@@ -18,11 +18,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $point4 = new Point(4);
         $point1->setNextPoints([$pointA]);
         $pointA->setNextPoints([$point4]);
+        $point4->setGoal(true); // 4地点はゴール
 
-        $points = [1 => $point1, 'a' => $pointA, 4 => $point4];
+        $startPoints = [$point1];
 
         $router = new Router();
-        $routes = $router->run($points, [1], [4]);
+        $routes = $router->run($startPoints);
 
         $this->assertEquals([[1, 'a', 4]], $routes);
     }
@@ -40,17 +41,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $point1->setNextPoints([$pointA, $pointB]);
         $pointA->setNextPoints([$point4]);
         $pointB->setNextPoints([$point5]);
+        $point4->setGoal(true); // 4地点はゴール
+        $point5->setGoal(true); // 5地点はゴール
 
-        $points = [
-            1 => $point1,
-            'a' => $pointA,
-            'b' => $pointB,
-            4 => $point4,
-            5 => $point5,
-        ];
+        $startPoints = [$point1];
 
         $router = new Router();
-        $routes = $router->run($points, [1], [4, 5]);
+        $routes = $router->run($startPoints);
 
         $this->assertEquals([
             [1, 'a', 4],
@@ -72,17 +69,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $pointA->setNextPoints([$point4]);
         $pointB->setNextPoints([$point5]);
         $pointB->disable(); // B地点を通行止め
+        $point4->setGoal(true); // 4地点はゴール
+        $point5->setGoal(true); // 5地点はゴール
 
-        $points = [
-            1 => $point1,
-            'a' => $pointA,
-            'b' => $pointB,
-            4 => $point4,
-            5 => $point5,
-        ];
+        $startPoints = [$point1];
 
         $router = new Router();
-        $routes = $router->run($points, [1], [4, 5]);
+        $routes = $router->run($startPoints);
 
         $this->assertEquals([
             [1, 'a', 4],
